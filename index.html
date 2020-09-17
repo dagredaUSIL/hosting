@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<title>Login V1</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script>
+		var description = "";
+			function soapRequest(){
+				var description = document.getElementById("description").value;
+				//console.log(typeof(description));
+				var tipo = document.getElementById("tipoincidente").value;
+				//console.log(tipo);
+				var str = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:qms="http://qms.ws.sas.interact.com/">' + 
+				'<soapenv:Header/>'+
+				'<soapenv:Body>'+
+				'<qms:registerOccurrenceNS>'+
+				'<contract>124cc3f4-29a8-42fc-8bb8-f1bb4462dff2</contract>'+
+				'<service>ws.qms</service>'+
+				'<application>OC WS</application>'+
+				'<secret>BiOeAmJiFaPhLjPcPmEaHaFaBjBmOgKjJkGoMbJbAfAhAeMpCjJiHfAgIjMaEoIb</secret>'+
+				'<type>' + tipo + '</type>' +
+				'<names>@author</names>'+
+				'<values>davagre</values>'+
+				'<names>@title</names>'+
+				'<values>Incidente por caida</values>'+
+				'<names>@description</names>'+
+				'<values>'+ description + '</values>' +
+				'</qms:registerOccurrenceNS>'+
+				'</soapenv:Body>'+
+				'</soapenv:Envelope>';
+				//console.log(str);
+				function createCORSRequest(method, url) {
+						var xhr = new XMLHttpRequest();
+						if ("withCredentials" in xhr) {
+							xhr.open(method, url, false);
+						} else if (typeof XDomainRequest != "undefined") {
+							alert
+							xhr = new XDomainRequest();
+							xhr.open(method, url);
+						} else {
+							console.log("CORS not supported");
+							alert("CORS not supported");
+							xhr = null;
+						}
+						return xhr;
+					}
+					var xhr = createCORSRequest("POST", "https://latam.interact.com.br/sa/ws/qms?wsdl");
+					
+
+					if(!xhr){
+					console.log("XHR issue");
+					return;
+					}
+
+					xhr.onload = function (){
+					//var results = xhr.responseText;
+					var results = xhr.responseText;
+					var cadena = results.slice(196,202);
+					alert("Registrado, tu número de incidencia es "+ cadena);
+					}
+					xhr.setRequestHeader('Content-Type','text/xml');
+					xhr.send(str); 
+				}
+					
+			</script>
+
+	<!--===============================================================================================-->	
+		<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<!--===============================================================================================-->	
+		<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+		<link rel="stylesheet" type="text/css" href="css/util.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!--===============================================================================================-->
+	</head>
+	<body>
+		<div class="limiter">
+			<div class="container-login100">
+				<div class="wrap-login100">
+					<div class="login100-pic js-tilt" data-tilt>
+						<img src="images/cheque.png" alt="IMG">
+					</div>
+					<form class="login100-form validate-form">
+						<span class="login100-form-title">
+						<i class="fa fa-user-md" aria-hidden="true"></i>
+						Incidentes
+						</span>
+						<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+							<!-- <input class="input100" type="text" id="description" placeholder="Describe el incidente"> -->
+							<select class="input100" name="tipo" id="tipoincidente">
+								<option value="incidenteporcaida">Incidente por caída</option>
+								<option value="incidenteporflebitis">Incidente por Flebitis / Tromboflebitis</option>
+								<option value="incidentepormedicamentos">Incidente por medicamentos</option>
+								<option value="incidenteporprocedimientos">Incidente por procedimientos</option>
+								<option value="incidenteporulcera">Incidente por ulcera por presión</option>
+								<option value="incidenteporotros">Otros</option>
+							</select>
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-user-md" aria-hidden="true"></i>
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+							<input class="input100" type="text" id="description" placeholder="Describe el incidente">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-user-md" aria-hidden="true"></i>
+							</span>
+						</div>
+				<!-- 		<div class="wrap-input100 validate-input" data-validate = "Password is required">
+							<input class="input100" type="password" name="pass" placeholder="Password">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-lock" aria-hidden="true"></i>
+							</span>
+						</div> -->
+						<div class="container-login100-form-btn">
+					<!-- 		<button class="login100-form-btn">
+								Enviar
+							</button> -->
+							<input class="login100-form-btn" type="button" name="" value="Enviar" onclick="soapRequest();">
+						</div>
+					<!-- 	<div class="text-center p-t-12">
+							<span class="txt1">
+								Forgot
+							</span>
+							<a class="txt2" href="#">
+								Username / Password?
+							</a>
+						</div> -->
+
+						<!-- <div class="text-center p-t-136">
+							<a class="txt2" href="#">
+								Create your Account
+								<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+							</a>
+						</div> -->
+					</form>
+				</div>
+			</div>
+		</div>
+		<input type="submit" name="" value="SOAP Request" onclick="soapRequest();">
+	<!--===============================================================================================-->	
+		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/bootstrap/js/popper.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/select2/select2.min.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/tilt/tilt.jquery.min.js"></script>
+		<script >
+			$('.js-tilt').tilt({
+				scale: 1.1
+			})
+		</script>
+	<!--===============================================================================================-->
+		<script src="js/main.js"></script>
+
+	</body>
+	</html>
