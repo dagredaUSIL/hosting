@@ -11,6 +11,9 @@
 				//console.log(typeof(description));
 				var tipo = document.getElementById("tipoincidente").value;
 				//console.log(tipo);
+				var nombrepaciente = document.getElementById("nombrepaciente").value;
+				var fechaincidente = document.getElementById("fechaincidente").value;
+				//console.log(fechaincidente);
 				var str = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:qms="http://qms.ws.sas.interact.com/">' + 
 				'<soapenv:Header/>'+
 				'<soapenv:Body>'+
@@ -23,9 +26,13 @@
 				'<names>@author</names>'+
 				'<values>davagre</values>'+
 				'<names>@title</names>'+
-				'<values>Incidente por caida</values>'+
+				'<values>Incidente</values>'+
 				'<names>@description</names>'+
 				'<values>'+ description + '</values>' +
+				'<names>nombre</names>'+
+				'<values>'+ nombrepaciente+ '</values>'+
+				'<names>fechadelincidente</names>'+
+				'<values>'+ fechaincidente + '</values>'+
 				'</qms:registerOccurrenceNS>'+
 				'</soapenv:Body>'+
 				'</soapenv:Envelope>';
@@ -61,6 +68,7 @@
 					}
 					xhr.setRequestHeader('Content-Type','text/xml');
 					xhr.send(str); 
+					
 				}
 					
 			</script>
@@ -95,8 +103,23 @@
 						Incidentes
 						</span>
 						<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+							<input class="input100" type="text" id="nombrepaciente" placeholder="Nombre del paciente">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-user-circle" aria-hidden="true"></i>
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+							<input class="input100" type="date" id="fechaincidente" placeholder="Fecha de incidencia">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</span>
+						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
 							<!-- <input class="input100" type="text" id="description" placeholder="Describe el incidente"> -->
-							<select class="input100" name="tipo" id="tipoincidente">
+							<select class="input100" name="tipo" id="tipoincidente" >
+							    <option value="" disabled selected hidden>Tipo de incidente</option>
 								<option value="incidenteporcaida">Incidente por caída</option>
 								<option value="incidenteporflebitis">Incidente por Flebitis / Tromboflebitis</option>
 								<option value="incidentepormedicamentos">Incidente por medicamentos</option>
@@ -106,7 +129,7 @@
 							</select>
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
-								<i class="fa fa-user-md" aria-hidden="true"></i>
+								<i class="fa fa-list" aria-hidden="true"></i>
 							</span>
 						</div>
 						<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
@@ -116,6 +139,8 @@
 								<i class="fa fa-user-md" aria-hidden="true"></i>
 							</span>
 						</div>
+						<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+
 				<!-- 		<div class="wrap-input100 validate-input" data-validate = "Password is required">
 							<input class="input100" type="password" name="pass" placeholder="Password">
 							<span class="focus-input100"></span>
@@ -148,7 +173,7 @@
 				</div>
 			</div>
 		</div>
-		<input type="submit" name="" value="SOAP Request" onclick="soapRequest();">
+		<!-- <input type="submit" name="" value="SOAP Request" onclick="soapRequest();"> -->
 	<!--===============================================================================================-->	
 		<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<!--===============================================================================================-->
